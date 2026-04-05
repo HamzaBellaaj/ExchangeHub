@@ -126,6 +126,17 @@
   transform: scale(1.05);
 }
 
+.candidature-deja-deposee {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #999;
+  background-color: transparent;
+  border: 1px solid #ddd;
+  white-space: nowrap;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .formations-section {

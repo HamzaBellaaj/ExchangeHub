@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Formation } from '../../../commun/InterfaceFormation';
-import { FORMATIONS } from '../../../commun/dataFormations';
+import { Formation } from '../../../../commun/InterfaceFormation';
+import { FORMATIONS } from '../../../../commun/dataFormations';
+import { CandidatureService } from '../../../../commun/CandidatureService';
+import { Candidature } from '../../../../commun/InterfaceCandidature';
 
 @Component({
   selector: 'app-soumettre-candidature',
@@ -21,7 +23,8 @@ export class SoumettreCandidature implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private candidatureService: CandidatureService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +59,19 @@ export class SoumettreCandidature implements OnInit {
   }
 
   soumettreFormulaire(): void {
-    if (this.candidatureForm.valid) {
+    if (this.candidatureForm.valid && this.formation) {
+      const nouvelleCandidature: Candidature = {
+        id: Date.now(),
+        formationId: this.formation.id,
+        titre: this.formation.titre,
+        universite: this.formation.universite,
+        pays: this.formation.pays,
+        dateDepot: new Date().toISOString().split('T')[0],
+        statut: 'en-attente',
+        telephone: this.candidatureForm.get('telephone')?.value,
+        typesMobilite: this.candidatureForm.get('mobiliteType')?.value
+      };
+      this.candidatureService.ajouter(nouvelleCandidature);
       this.router.navigate(['/client/resultat']);
     }
   }
