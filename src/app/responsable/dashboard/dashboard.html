@@ -1,0 +1,155 @@
+<div class="dashboard">
+
+  <div class="hdr">
+    <h1>Tableau de Bord Responsable</h1>
+    <p>Vue d'ensemble des candidatures et entretiens</p>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">Total Candidatures</span>
+        <div class="card-icon blue">
+          <svg width="16" height="16" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-val">{{ stats.total }}</div>
+      <div class="card-sub">Toutes périodes confondues</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">En Attente</span>
+        <div class="card-icon gray">
+          <svg width="16" height="16" fill="none" stroke="#64748b" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-val">{{ stats.pending }}</div>
+      <div class="card-sub">À évaluer</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">Acceptées</span>
+        <div class="card-icon green">
+          <svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-val">{{ stats.accepted }}</div>
+      <div class="card-sub">Décisions finales</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">Entretiens</span>
+        <div class="card-icon purple">
+          <svg width="16" height="16" fill="none" stroke="#7c3aed" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-val">{{ stats.interviews }}</div>
+      <div class="card-sub">À venir</div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+
+    <div class="left-col">
+
+      <div class="box">
+        <div class="box-title">Répartition des Candidatures</div>
+        <div class="box-sub">Par statut</div>
+        <div class="chart-area">
+          <div class="pie" [style.background]="buildConicGradient()"></div>
+          <div class="legend">
+            <div class="leg-row" *ngFor="let d of chartData">
+              <span class="leg-dot" [style.background]="d.color"></span>
+              <span class="leg-name">{{ d.name }}</span>
+              <span class="leg-val">{{ d.value }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="rbox-hdr">
+          <div>
+            <div class="box-title">Candidatures Récentes</div>
+            <div class="box-sub">Dernières soumissions</div>
+          </div>
+          <a routerLink="/candidatures" class="see-all-btn">Voir tout</a>
+        </div>
+        <div class="cand-row" *ngFor="let app of recentApplications">
+          <div>
+            <div class="cand-name">{{ app.candidateName }}</div>
+            <div class="cand-prog">{{ app.programName }}</div>
+          </div>
+          <span class="badge" [ngClass]="getStatusClass(app.status)">
+            {{ getStatusLabel(app.status) }}
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="right-col">
+
+      <div class="box">
+        <div class="box-title">Entretiens à Venir</div>
+        <div class="box-sub">{{ upcomingInterviews.length }} planifiés</div>
+        <div class="iv-item" *ngFor="let iv of upcomingInterviews">
+          <div class="iv-name">{{ iv.candidateName }}</div>
+          <div class="iv-date">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            {{ formatDate(iv.date) }} - {{ iv.time }}
+          </div>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="box-title">Actions Rapides</div>
+        <div class="quick-actions">
+          <a routerLink="/candidatures" class="qa-btn">
+            <svg width="14" height="14" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            Gérer les candidatures
+          </a>
+          <a routerLink="/entretiens" class="qa-btn">
+            <svg width="14" height="14" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            Planifier un entretien
+          </a>
+          <a routerLink="/decisions" class="qa-btn">
+            <svg width="14" height="14" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            Décisions finales
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

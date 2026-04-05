@@ -1,0 +1,267 @@
+<div class="page">
+
+  <div class="toast-container" *ngIf="toast">
+    <div class="toast" [class.toast-success]="toast.type === 'success'"
+      [class.toast-error]="toast.type === 'error'">
+      {{ toast.message }}
+    </div>
+  </div>
+
+  <div class="page-header">
+    <div>
+      <h1>Gestion des Entretiens</h1>
+      <p>Planifiez et suivez vos entretiens avec les candidats</p>
+    </div>
+    <button class="btn-primary" (click)="openCreateModal()">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Planifier un Entretien
+    </button>
+  </div>
+
+  <div class="section-box mb">
+    <div class="section-header">
+      <div class="section-title">Entretiens à Venir</div>
+      <div class="section-sub">{{ upcomingInterviews.length }} entretiens planifiés</div>
+    </div>
+
+    <div class="interview-card" *ngFor="let iv of upcomingInterviews">
+      <div class="iv-top">
+        <div>
+          <div class="iv-name">{{ iv.candidateName }}</div>
+          <div class="iv-program">{{ iv.programName }}</div>
+        </div>
+        <span class="badge b-blue">À venir</span>
+      </div>
+
+      <div class="iv-meta">
+        <div class="meta-item">
+          <svg width="14" height="14" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+          </svg>
+          {{ formatDateLong(iv.date) }}
+        </div>
+        <div class="meta-item">
+          <svg width="14" height="14" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          {{ iv.time }}
+        </div>
+        <div class="meta-item">
+          <svg width="14" height="14" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24">
+            <path *ngIf="iv.type === 'online'" d="M15 10l4.553-2.069A1 1 0 0 1 21 8.82v6.36a1 1 0 0 1-1.447.89L15 14M3 8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/>
+            <path *ngIf="iv.type !== 'online'" d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle *ngIf="iv.type !== 'online'" cx="12" cy="10" r="3"/>
+          </svg>
+          {{ iv.location }}
+        </div>
+        <div class="meta-item">
+          <svg width="14" height="14" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          {{ iv.participants.length }} participant(s)
+        </div>
+      </div>
+
+        <div class="meeting-link" *ngIf="iv.type === 'online'">
+        <a href="https://meet.google.com" target="_blank" rel="noopener noreferrer">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M15 10l4.553-2.069A1 1 0 0 1 21 8.82v6.36a1 1 0 0 1-1.447.89L15 14M3 8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/>
+            </svg>
+            Rejoindre la visioconférence
+        </a>
+        </div>
+
+      <div class="iv-notes" *ngIf="iv.notes">
+        <strong>Notes :</strong> {{ iv.notes }}
+      </div>
+
+      <div class="iv-actions">
+        <button class="btn-outline-sm" (click)="openEditModal(iv)">Modifier</button>
+        <button class="btn-outline-sm danger" (click)="cancelInterview(iv)">Annuler</button>
+        <button class="btn-dark-sm" (click)="markDone(iv)">Marquer comme terminé</button>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="upcomingInterviews.length === 0">
+      Aucun entretien à venir
+    </div>
+  </div>
+
+ 
+  <div class="section-box">
+    <div class="section-header">
+      <div class="section-title">Entretiens Terminés</div>
+      <div class="section-sub">{{ completedInterviews.length }} entretiens complétés</div>
+    </div>
+
+    <div class="interview-card completed" *ngFor="let iv of completedInterviews">
+      <div class="iv-top">
+        <div>
+          <div class="iv-name">{{ iv.candidateName }}</div>
+          <div class="iv-program">{{ iv.programName }}</div>
+        </div>
+        <span class="badge b-green">Terminé</span>
+      </div>
+
+      <div class="iv-meta">
+        <div class="meta-item">
+          <svg width="14" height="14" fill="none" stroke="#64748b" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          {{ formatDate(iv.date) }}
+        </div>
+        <div class="meta-item">
+          <svg width="14" height="14" fill="none" stroke="#64748b" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          {{ iv.time }}
+        </div>
+      </div>
+
+      <div class="iv-notes compte-rendu" *ngIf="iv.notes">
+        <strong>Compte-rendu :</strong> {{ iv.notes }}
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="completedInterviews.length === 0">
+      Aucun entretien terminé
+    </div>
+  </div>
+
+</div>
+
+
+<div class="modal-overlay" *ngIf="showCreateModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Planifier un Nouvel Entretien</div>
+        <div class="modal-desc">Remplissez les informations pour planifier un entretien avec un candidat</div>
+      </div>
+      <button class="close-btn" (click)="closeCreateModal()">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Candidat</label>
+          <select class="form-input" [(ngModel)]="newInterview.candidate">
+            <option value="">Sélectionner un candidat</option>
+            <option value="Sophie Martin">Sophie Martin</option>
+            <option value="Lucas Dubois">Lucas Dubois</option>
+            <option value="Thomas Rousseau">Thomas Rousseau</option>
+            <option value="Emma Lefebvre">Emma Lefebvre</option>
+            <option value="Camille Petit">Camille Petit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Type d'entretien</label>
+          <select class="form-input" [(ngModel)]="newInterview.type">
+            <option value="">Type</option>
+            <option value="in_person">Présentiel</option>
+            <option value="online">Visioconférence</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input class="form-input" type="date" [(ngModel)]="newInterview.date" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Heure</label>
+          <input class="form-input" type="time" [(ngModel)]="newInterview.time" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Lieu / Lien de visioconférence</label>
+        <input class="form-input" type="text" [(ngModel)]="newInterview.location"
+          placeholder="Ex: Salle A101 ou https://meet.example.com/..." />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Participants</label>
+        <input class="form-input" type="text" [(ngModel)]="newInterview.participants"
+          placeholder="Noms des examinateurs (séparés par des virgules)" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Notes</label>
+        <textarea class="form-textarea" rows="3" [(ngModel)]="newInterview.notes"
+          placeholder="Points à aborder, préparation..."></textarea>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-outline-sm" (click)="closeCreateModal()">Annuler</button>
+      <button class="btn-dark" (click)="createInterview()">Planifier</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-overlay" *ngIf="showEditModal && editingInterview">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Modifier l'Entretien</div>
+        <div class="modal-desc">Modifiez les informations de l'entretien</div>
+      </div>
+      <button class="close-btn" (click)="closeEditModal()">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input class="form-input" type="date" [(ngModel)]="editingInterview!.date" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Heure</label>
+          <input class="form-input" type="time" [(ngModel)]="editingInterview!.time" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Lieu / Lien de visioconférence</label>
+        <input class="form-input" type="text" [(ngModel)]="editingInterview!.location"
+          placeholder="Ex: Salle A101 ou https://meet.example.com/..." />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Notes</label>
+        <textarea class="form-textarea" rows="3" [(ngModel)]="editingInterview!.notes"
+          placeholder="Points à aborder, préparation..."></textarea>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-outline-sm" (click)="closeEditModal()">Annuler</button>
+      <button class="btn-dark" (click)="saveEdit()">Enregistrer</button>
+    </div>
+  </div>
+</div>

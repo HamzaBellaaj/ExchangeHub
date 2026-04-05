@@ -1,0 +1,81 @@
+<div class="page">
+
+  <div class="page-header">
+    <h1>Gestion des Candidatures</h1>
+    <p>{{ allApplications.length }} candidatures au total</p>
+  </div>
+
+  <!-- Filtres -->
+  <div class="filters-box">
+    <div class="search-wrapper">
+      <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor"
+        stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input
+        class="search-input"
+        type="text"
+        placeholder="Rechercher par candidat ou programme..."
+        [(ngModel)]="searchTerm"
+      />
+    </div>
+    <div class="select-wrapper">
+      <select class="status-select" [(ngModel)]="statusFilter">
+        <option value="all">Tous les statuts</option>
+        <option value="en_attente">En Attente</option>
+        <option value="preselectionne">Présélectionné</option>
+        <option value="entretien_planifie">Entretien Planifié</option>
+        <option value="accepte">Accepté</option>
+        <option value="refuse">Refusé</option>
+      </select>
+      <svg class="select-arrow" width="14" height="14" fill="none" stroke="currentColor"
+        stroke-width="2" viewBox="0 0 24 24">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Tableau -->
+  <div class="table-box">
+    <table>
+      <thead>
+        <tr>
+          <th>Candidat</th>
+          <th>Programme</th>
+          <th>Type</th>
+          <th>Date</th>
+          <th>Statut</th>
+          <th class="th-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let app of filtered">
+          <td class="td-name">{{ app.candidateName }}</td>
+          <td class="td-program">{{ app.programName }}</td>
+          <td>{{ getMobilityLabel(app.mobilityType) }}</td>
+          <td>{{ formatDate(app.submittedAt) }}</td>
+          <td>
+            <span class="badge" [ngClass]="getStatusClass(app.status)">
+              {{ getStatusLabel(app.status) }}
+            </span>
+          </td>
+          <td class="td-actions">
+            <a [routerLink]="['/candidature', app.id]" class="action-btn">
+              <svg width="16" height="16" fill="none" stroke="currentColor"
+                stroke-width="2" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              Détails
+            </a>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0">
+          <td colspan="6" class="td-empty">Aucune candidature trouvée</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

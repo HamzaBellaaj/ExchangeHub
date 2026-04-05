@@ -1,0 +1,184 @@
+<div class="page">
+
+  <div class="toast-container" *ngIf="toast">
+    <div class="toast" [class.toast-success]="toast.type === 'success'"
+      [class.toast-error]="toast.type === 'error'">
+      {{ toast.message }}
+    </div>
+  </div>
+
+  <div class="page-header">
+    <h1>Décisions Finales</h1>
+    <p>Accepter ou refuser les candidatures après évaluation</p>
+  </div>
+
+  <div class="stats-grid mb">
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">À Décider</span>
+        <div class="card-icon orange">
+          <svg width="15" height="15" fill="none" stroke="#ea580c" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-val">{{ stats.toDecide }}</div>
+      <div class="card-sub">En attente de décision</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">Acceptées</span>
+        <div class="card-icon green">
+          <svg width="15" height="15" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-val">{{ stats.accepted }}</div>
+      <div class="card-sub">Décisions positives</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">Refusées</span>
+        <div class="card-icon red">
+          <svg width="15" height="15" fill="none" stroke="#dc2626" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="15" y1="9" x2="9" y2="15"/>
+            <line x1="9" y1="9" x2="15" y2="15"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-val">{{ stats.rejected }}</div>
+      <div class="card-sub">Décisions négatives</div>
+    </div>
+  </div>
+
+  <div class="filters-box mb">
+    <div class="search-wrapper">
+      <svg class="search-icon" width="15" height="15" fill="none" stroke="currentColor"
+        stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input class="search-input" type="text"
+        placeholder="Rechercher une candidature..."
+        [(ngModel)]="searchTerm" />
+    </div>
+    <div class="select-wrapper">
+      <select class="status-select" [(ngModel)]="filterMode">
+        <option value="pending">À décider</option>
+        <option value="decided">Décisions prises</option>
+      </select>
+      <svg class="select-arrow" width="13" height="13" fill="none" stroke="currentColor"
+        stroke-width="2" viewBox="0 0 24 24">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="table-box">
+    <div class="table-header">
+      <div class="table-title">
+        {{ filterMode === 'pending' ? 'Candidatures à Décider' : 'Décisions Prises' }}
+      </div>
+      <div class="table-sub">{{ filtered.length }} candidature(s)</div>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Candidat</th>
+            <th>Programme</th>
+            <th>Note</th>
+            <th>Statut Actuel</th>
+            <th class="th-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let app of filtered">
+            <td class="td-name">{{ app.candidateName }}</td>
+            <td class="td-program">{{ app.programName }}</td>
+            <td>
+              <span class="score" *ngIf="app.evaluationScore">
+                {{ app.evaluationScore }}/20
+              </span>
+              <span class="no-score" *ngIf="!app.evaluationScore">Non évalué</span>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="getStatusClass(app.status)">
+                {{ getStatusLabel(app.status) }}
+              </span>
+            </td>
+            <td class="td-actions">
+              <div class="action-btns" *ngIf="filterMode === 'pending'">
+                <button class="btn-accept" (click)="openDecision(app.id, 'accept')">
+                  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                  </svg>
+                  Accepter
+                </button>
+                <button class="btn-refuse" (click)="openDecision(app.id, 'reject')">
+                  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="15" y1="9" x2="9" y2="15"/>
+                    <line x1="9" y1="9" x2="15" y2="15"/>
+                  </svg>
+                  Refuser
+                </button>
+              </div>
+              <span class="decided-label" *ngIf="filterMode === 'decided'">
+                Décision prise
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="filtered.length === 0">
+            <td colspan="5" class="td-empty">Aucune candidature trouvée</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal confirmation -->
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal">
+    <div class="modal-title">
+      {{ decisionType === 'accept' ? 'Accepter la Candidature' : 'Refuser la Candidature' }}
+    </div>
+    <div class="modal-desc">
+      Cette décision sera finale et le candidat sera notifié par email.
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Justification de la décision</label>
+      <textarea class="form-textarea" rows="4" [(ngModel)]="justification"
+        placeholder="Expliquez brièvement les raisons de cette décision..."></textarea>
+    </div>
+
+    <div class="info-box green" *ngIf="decisionType === 'accept'">
+      Le candidat recevra un email de félicitations avec les prochaines étapes.
+    </div>
+    <div class="info-box red" *ngIf="decisionType === 'reject'">
+      Le candidat recevra un email de refus avec les raisons mentionnées.
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-outline" (click)="showModal = false">Annuler</button>
+      <button class="btn-confirm"
+        [class.confirm-accept]="decisionType === 'accept'"
+        [class.confirm-reject]="decisionType === 'reject'"
+        (click)="confirmDecision()">
+        Confirmer la Décision
+      </button>
+    </div>
+  </div>
+</div>

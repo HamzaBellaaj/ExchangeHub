@@ -1,0 +1,135 @@
+.dashboard {
+  padding: 28px;
+  font-family: 'Inter', sans-serif;
+  background: #f5f7fb;
+  min-height: 100vh;
+}
+
+.hdr h1 { font-size: 22px; font-weight: 600; color: #0f172a; margin-bottom: 4px; }
+.hdr p  { font-size: 13px; color: #64748b; margin-bottom: 22px; }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px;
+}
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.card-label { font-size: 12px; color: #64748b; font-weight: 500; }
+.card-icon {
+  width: 30px; height: 30px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+}
+.card-icon.blue   { background: #dbeafe; }
+.card-icon.gray   { background: #f1f5f9; }
+.card-icon.green  { background: #dcfce7; }
+.card-icon.purple { background: #f5f3ff; }
+.card-val { font-size: 28px; font-weight: 700; color: #0f172a; line-height: 1; }
+.card-sub { font-size: 11px; color: #94a3b8; margin-top: 5px; }
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 16px;
+}
+.left-col  { display: flex; flex-direction: column; gap: 16px; }
+.right-col { display: flex; flex-direction: column; gap: 16px; }
+
+.box {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px;
+}
+.box-title { font-size: 14px; font-weight: 600; color: #0f172a; }
+.box-sub   { font-size: 12px; color: #64748b; margin-top: 2px; margin-bottom: 14px; }
+
+.chart-area { display: flex; align-items: center; gap: 28px; padding: 8px 0; }
+.pie { width: 150px; height: 150px; border-radius: 50%; flex-shrink: 0; }
+.legend { display: flex; flex-direction: column; gap: 10px; }
+.leg-row  { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.leg-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.leg-name { flex: 1; color: #374151; }
+.leg-val  { color: #64748b; font-weight: 600; }
+
+.iv-item {
+  background: #f5f3ff;
+  border: 1px solid #e9d5ff;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+.iv-item:last-child { margin-bottom: 0; }
+.iv-name { font-size: 13px; font-weight: 600; color: #5b21b6; }
+.iv-date {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; color: #7c3aed; margin-top: 3px;
+}
+
+.quick-actions { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
+.qa-btn {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: white;
+  font-size: 13px; color: #374151;
+  text-decoration: none;
+  transition: background 0.12s;
+}
+.qa-btn:hover { background: #f8fafc; }
+
+.rbox-hdr {
+  display: flex; justify-content: space-between;
+  align-items: flex-start; margin-bottom: 12px;
+}
+.see-all-btn {
+  font-size: 12px; color: #2563eb;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px; padding: 5px 12px;
+  text-decoration: none;
+}
+.see-all-btn:hover { background: #f8fafc; }
+
+.cand-row {
+  display: flex; justify-content: space-between;
+  align-items: center; padding: 10px 4px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.cand-row:last-child { border-bottom: none; }
+.cand-name { font-size: 14px; font-weight: 500; color: #0f172a; }
+.cand-prog { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+
+.badge {
+  display: inline-flex; padding: 3px 10px;
+  border-radius: 20px; font-size: 11px;
+  font-weight: 500; border: 1px solid transparent;
+  white-space: nowrap;
+}
+.b-purple { background: #f5f3ff; color: #6d28d9; border-color: #ddd6fe; }
+.b-orange { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+.b-green  { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+.b-gray   { background: #f8fafc; color: #475569; border-color: #e2e8f0; }
+.b-red    { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+
+@media (max-width: 1024px) {
+  .main-grid { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .cards { grid-template-columns: 1fr; }
+  .chart-area { flex-direction: column; }
+  .dashboard { padding: 16px; }
+}
