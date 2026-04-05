@@ -1,0 +1,283 @@
+.resultat-container {
+  padding: 2rem;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* En-tête */
+.resultat-header {
+  margin-bottom: 2rem;
+}
+
+.resultat-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.sous-titre {
+  font-size: 1.1rem;
+  color: #6c757d;
+}
+
+/* Filtres */
+.filtres-statuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.filtre-btn {
+  padding: 0.6rem 1.2rem;
+  border: 2px solid #ddd;
+  background-color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.filtre-btn:hover {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.filtre-btn.actif {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Cartes de candidature */
+.candidatures-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.candidature-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-left: 5px solid #ccc;
+}
+
+.candidature-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Couleurs des statuts */
+.candidature-card.statut-en-attente {
+  border-left-color: #FFA500;
+}
+
+.candidature-card.statut-preselectionne {
+  border-left-color: #3498DB;
+}
+
+.candidature-card.statut-entretien-planifie {
+  border-left-color: #9B59B6;
+}
+
+.candidature-card.statut-accepte {
+  border-left-color: #2ECC71;
+}
+
+.candidature-card.statut-refuse {
+  border-left-color: #E74C3C;
+}
+
+/* En-tête de la carte */
+.card-header {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #eee;
+}
+
+.titre-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.titre-section h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  flex: 1;
+}
+
+.badge-statut {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background-color: #007bff;
+}
+
+.statut-en-attente .badge-statut {
+  background-color: #FFA500;
+}
+
+.statut-preselectionne .badge-statut {
+  background-color: #3498DB;
+}
+
+.statut-entretien-planifie .badge-statut {
+  background-color: #9B59B6;
+}
+
+.statut-accepte .badge-statut {
+  background-color: #2ECC71;
+}
+
+.statut-refuse .badge-statut {
+  background-color: #E74C3C;
+}
+
+.date-depot {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Contenu de la carte */
+.card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.info-row .label {
+  font-weight: 600;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.info-row .valeur {
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+/* Section Entretien */
+.entretien-section {
+  background-color: #f3e5f5;
+  border-left: 4px solid #9B59B6;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.entretien-header {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #7B2D8F;
+}
+
+.entretien-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.entretien-details .detail {
+  font-size: 0.95rem;
+  color: #1a1a1a;
+}
+
+.btn-lien {
+  margin-top: 0.8rem;
+  padding: 0.7rem 1.2rem;
+  background-color: #9B59B6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.btn-lien:hover {
+  background-color: #7B2D8F;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* État vide */
+.aucune-candidature {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.empty-state {
+  background: white;
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.empty-state .icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.empty-state h3 {
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: #6c757d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .resultat-container {
+    padding: 1rem;
+  }
+
+  .resultat-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .filtres-statuts {
+    justify-content: center;
+  }
+
+  .filtre-btn {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .titre-section {
+    flex-direction: column;
+  }
+
+  .card-header {
+    padding: 1rem;
+  }
+
+  .card-content {
+    padding: 1rem;
+  }
+}
