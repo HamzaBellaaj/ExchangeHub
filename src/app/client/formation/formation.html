@@ -1,0 +1,33 @@
+<div class="formations-section">
+  <h1 class="section-title">Programmes Disponibles</h1>
+  <p class="section-subtitle">Découvrez les opportunités de mobilité</p>
+
+  <div class="formations-grid">
+    @for (formation of formations; track formation.id) {
+      <div class="formation-card">
+        <div class="card-header">
+          <h2>{{ formation.titre }}</h2>
+          <span class="badge">Étudiant</span>
+        </div>
+
+        <div class="card-info">
+          <div class="info-item">
+            <span class="icon">🌍</span>
+            <span>{{ formation.pays }}</span>
+          </div>
+          <div class="info-item">
+            <span class="icon">🎓</span>
+            <span>{{ formation.universite }}</span>
+          </div>
+        </div>
+
+        <p class="description">{{ formation.description }}</p>
+
+        <div class="card-footer">
+          <p class="places">{{ formation.placesDisponibles }} places disponibles</p>
+          <button class="btn-details" (click)="voirDetails(formation.id)">Voir détails</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

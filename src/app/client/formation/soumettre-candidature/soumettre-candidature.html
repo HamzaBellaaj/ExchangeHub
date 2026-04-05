@@ -1,0 +1,152 @@
+<div class="candidature-container">
+  <div class="form-header">
+    <h1>Formulaire de Candidature</h1>
+    <p class="formation-name">{{ formationTitle }}</p>
+  </div>
+
+  <form [formGroup]="candidatureForm" class="candidature-form">
+    <!-- Section Informations Personnelles -->
+    <div class="form-section">
+      <h2 class="section-title">Informations Personnelles</h2>
+      <p class="section-subtitle">Renseignez vos coordonnées</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="telephone">Téléphone *</label>
+          <input
+            type="tel"
+            id="telephone"
+            formControlName="telephone"
+            placeholder="+216 98 111 111"
+            class="form-input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="nationalite">Nationalité *</label>
+          <input
+            type="text"
+            id="nationalite"
+            formControlName="nationalite"
+            placeholder="Tunisienne"
+            class="form-input"
+          />
+        </div>
+      </div>
+
+      <div class="form-group full-width">
+        <label for="adresse">Adresse Complète *</label>
+        <input
+          type="text"
+          id="adresse"
+          formControlName="adresse"
+          placeholder="Ariana"
+          class="form-input"
+        />
+      </div>
+    </div>
+
+    <!-- Section Type de Mobilité -->
+    <div class="form-section">
+      <h2 class="section-title">Type de Mobilité</h2>
+
+      <div class="form-group">
+        <label for="mobiliteType">Sélectionnez votre type de mobilité *</label>
+        <select
+          id="mobiliteType"
+          formControlName="mobiliteType"
+          class="form-select">
+          <option value="" disabled selected>-- Choisissez une option --</option>
+          <option value="Mobilité Étudiant">Mobilité Étudiant</option>
+          <option value="Mobilité Enseignement">Mobilité Enseignement</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Section Documents Requis -->
+    <div class="form-section">
+      <h2 class="section-title">Documents Requis</h2>
+      <p class="section-subtitle">Téléchargez vos documents au format PDF (max 5 Mo par fichier)</p>
+
+      <div class="form-group">
+        <label for="cv">CV / Curriculum Vitae *</label>
+        <div class="file-upload-area" (click)="cvInput.click()">
+          <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3-3m0 0l3 3m-3-3v12"/>
+          </svg>
+          <p class="upload-text">Cliquez pour télécharger ou glissez-déposez</p>
+          @if (candidatureForm.get('cv')?.value) {
+            <p class="file-name">{{ candidatureForm.get('cv')?.value }}</p>
+          }
+        </div>
+        <input
+          #cvInput
+          type="file"
+          id="cv"
+          accept=".pdf"
+          (change)="onFileSelected($event, 'cv')"
+          class="file-input-hidden"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="lettre">Lettre de Motivation *</label>
+        <div class="file-upload-area" (click)="lettreInput.click()">
+          <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3-3m0 0l3 3m-3-3v12"/>
+          </svg>
+          <p class="upload-text">Cliquez pour télécharger ou glissez-déposez</p>
+          @if (candidatureForm.get('lettre')?.value) {
+            <p class="file-name">{{ candidatureForm.get('lettre')?.value }}</p>
+          }
+        </div>
+        <input
+          #lettreInput
+          type="file"
+          id="lettre"
+          accept=".pdf"
+          (change)="onFileSelected($event, 'lettre')"
+          class="file-input-hidden"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Relevés de Notes *</label>
+        <div class="file-upload-area" (click)="notesInput.click()">
+          <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3-3m0 0l3 3m-3-3v12"/>
+          </svg>
+          <p class="upload-text">Cliquez pour télécharger ou glissez-déposez</p>
+          @if (candidatureForm.get('notes')?.value) {
+            <p class="file-name">{{ candidatureForm.get('notes')?.value }}</p>
+          }
+        </div>
+        <input
+          #notesInput
+          type="file"
+          id="notes"
+          accept=".pdf"
+          (change)="onFileSelected($event, 'notes')"
+          class="file-input-hidden"
+        />
+      </div>
+    </div>
+
+    <!-- Section Avertissement -->
+    <div class="warning-section">
+      <p class="warning-text">
+        En soumettant ce formulaire, vous confirmez que toutes les informations fournies sont exactes et que vous remplissez
+        tous les critères d'éligibilité du programme.
+      </p>
+    </div>
+
+    <!-- Boutons d'Action -->
+    <div class="form-actions">
+      <button type="submit" class="btn-submit" (click)="soumettreFormulaire()">
+        📋 Soumettre ma Candidature
+      </button>
+      <button type="button" class="btn-cancel" (click)="annuler()">
+        Annuler
+      </button>
+    </div>
+  </form>
+</div>

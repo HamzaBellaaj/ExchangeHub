@@ -1,0 +1,71 @@
+@if (formation) {
+  <div class="details-container">
+    <button class="btn-back" (click)="retour()">← Retour</button>
+
+    <div class="details-header">
+      <h1>{{ formation.titre }}</h1>
+      <span class="badge">Étudiant</span>
+    </div>
+
+    <div class="details-content">
+      <div class="info-section">
+        <h2>Informations Générales</h2>
+        <div class="info-grid">
+          <div class="info-box">
+            <label>🌍 Pays</label>
+            <p>{{ formation.pays }}</p>
+          </div>
+          <div class="info-box">
+            <label>🎓 Université</label>
+            <p>{{ formation.universite }}</p>
+          </div>
+          <div class="info-box">
+            <label>📅 Début</label>
+            <p>{{ formation.dateDebut }}</p>
+          </div>
+          <div class="info-box">
+            <label>📅 Fin</label>
+            <p>{{ formation.dateFin }}</p>
+          </div>
+          <div class="info-box">
+            <label>👥 Places Disponibles</label>
+            <p class="places" [class.full]="formation.placesDisponibles === 0">
+              {{ formation.placesDisponibles }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h2>Description du Programme</h2>
+        <p class="description">{{ formation.description }}</p>
+      </div>
+
+      <div class="info-section">
+        <h2>Critères d'Éligibilité</h2>
+        <ul class="criteres-list">
+          @for (critere of formation.criteres; track $index) {
+            <li>
+              <span class="check-icon">✓</span>
+              {{ critere }}
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="actions">
+        <button 
+          class="btn-postuler" 
+          (click)="postuler()"
+          [disabled]="formation.placesDisponibles === 0">
+          {{ formation.placesDisponibles > 0 ? 'Postuler / Déposer Candidature' : 'Plus de places' }}
+        </button>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="not-found">
+    <h2>Formation non trouvée</h2>
+    <button class="btn-back" (click)="retour()">Retour aux formations</button>
+  </div>
+}
